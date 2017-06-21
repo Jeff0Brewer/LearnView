@@ -16,3 +16,20 @@ c:\users\researchsquad\documents\visual studio 2017\Projects\StudentView\Student
 c:\users\researchsquad\documents\visual studio 2017\Projects\StudentView\StudentView\obj\Debug\StudentView.csproj.GenerateResource.Cache
 c:\users\researchsquad\documents\visual studio 2017\Projects\StudentView\StudentView\obj\Debug\StudentView.exe
 c:\users\researchsquad\documents\visual studio 2017\Projects\StudentView\StudentView\obj\Debug\StudentView.pdb
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\bin\Debug\Tobii.EyeX.Client.dll
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\bin\Debug\StudentView.exe.config
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\bin\Debug\StudentView.exe
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\bin\Debug\StudentView.pdb
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\bin\Debug\EyeXFramework.dll
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\bin\Debug\EyeXFramework.pdb
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView.csprojResolveAssemblyReference.cache
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\MainWindow.g.cs
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\App.g.cs
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView_MarkupCompile.cache
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView_MarkupCompile.lref
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\MainWindow.baml
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView.g.resources
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView.Properties.Resources.resources
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView.csproj.GenerateResource.Cache
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView.exe
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\StudentView\StudentView\obj\Debug\StudentView.pdb
