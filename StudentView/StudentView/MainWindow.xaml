@@ -1,0 +1,25 @@
+﻿<Window x:Class="StudentView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StudentView"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" WindowState="Maximized">
+    <Canvas>
+        <TextBlock Panel.ZIndex="750" Name="Receive_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="30" MaxWidth="266.67" Text="Receiving Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
+        <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="80" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
+        <TextBlock Name="test" Text="" Panel.ZIndex="200" FontSize="30" Canvas.Top="0" Canvas.Left="0"></TextBlock>
+        <Rectangle Name="topleft" Canvas.Top="0" Canvas.Left="0"></Rectangle>
+        <Rectangle Name="bg" Width="1500" Height="4200">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="testbg.jpg"></ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Ellipse Name="tempTrack" Width="10" Height="10" Fill="Black" Panel.ZIndex="100" Canvas.Left="0" Canvas.Top="0"></Ellipse>
+        <Rectangle Name="scrollHover" Panel.ZIndex="1000" Canvas.Left="-2000" Canvas.Top="0" PreviewMouseUp="scrUnclick" MouseMove="scrMove" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
+        <Rectangle Name="scrollWheel" PreviewMouseWheel="scrWheel" Panel.ZIndex="900" Canvas.Left="0" Canvas.Top="0" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
+        <Rectangle Name="scrollBg" Width="20" Height="500" Fill="LightGray" Canvas.Right="0" Canvas.Top="0"></Rectangle>
+        <Rectangle Name="scrollHandle" Panel.ZIndex="950" Width="20" Height="100" Fill="Black" Canvas.Right="0" Canvas.Top="0" PreviewMouseDown="scrClick"></Rectangle>
+    </Canvas>
+</Window>
