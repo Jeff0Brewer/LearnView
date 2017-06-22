@@ -16,7 +16,6 @@
                 <ImageBrush ImageSource="testbg.jpg"></ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Ellipse Name="tempTrack" Width="10" Height="10" Fill="Black" Panel.ZIndex="100" Canvas.Left="0" Canvas.Top="0"></Ellipse>
         <Rectangle Name="scrollHover" Panel.ZIndex="1000" Canvas.Left="-2000" Canvas.Top="0" PreviewMouseUp="scrUnclick" MouseMove="scrMove" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
         <Rectangle Name="scrollWheel" PreviewMouseWheel="scrWheel" Panel.ZIndex="900" Canvas.Left="0" Canvas.Top="0" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
         <Rectangle Name="scrollBg" Width="20" Height="500" Fill="LightGray" Canvas.Right="0" Canvas.Top="0"></Rectangle>

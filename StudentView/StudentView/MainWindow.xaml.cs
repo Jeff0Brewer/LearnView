@@ -25,9 +25,6 @@ using System.ComponentModel;
 
 namespace StudentView
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private static string defaultSenderIP = "10.105.78.255"; //169.254.41.115 A, 169.254.50.139 B
