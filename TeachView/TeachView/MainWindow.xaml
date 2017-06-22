@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TeachView"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" WindowState="Maximized" Loaded="Window_Loaded" Closing="Window_Closing">
-    <Canvas Height="4200">
+    <Canvas Name="canv">
         <TextBlock Name="test" Text=" " Panel.ZIndex="750"></TextBlock>
         <TextBlock Panel.ZIndex="750" Name="Receive_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="30" MaxWidth="266.67" Text="Receiving Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
         <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="80" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
@@ -16,9 +16,7 @@
                 <ImageBrush ImageSource="testbg.jpg"></ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Ellipse Name="track1" Panel.ZIndex="100" Width="10" Height="10" Fill="Black" Canvas.Left="0" Canvas.Top="0"></Ellipse>
         <Rectangle Name="scrTrack1" Panel.ZIndex="940" Width="20" Height="5" Fill="CornflowerBlue" Canvas.Right="0" Canvas.Top="0"></Rectangle>
-        <Ellipse Name="track2" Panel.ZIndex="100" Width="10" Height="10" Fill="Black" Canvas.Left="0" Canvas.Top="0"></Ellipse>
         <Rectangle Name="scrTrack2" Panel.ZIndex="940" Width="20" Height="5" Fill="CornflowerBlue" Canvas.Right="0" Canvas.Top="0"></Rectangle>
         <Rectangle Name="scrollHover" Panel.ZIndex="1000" Canvas.Left="-2000" Canvas.Top="0" PreviewMouseUp="scrUnclick" MouseMove="scrMove" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
         <Rectangle Name="scrollWheel" PreviewMouseWheel="scrWheel" Panel.ZIndex="900" Canvas.Left="0" Canvas.Top="0" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>

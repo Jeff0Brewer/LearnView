@@ -30,7 +30,7 @@ namespace StudentView
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static string defaultSenderIP = "10.105.187.55"; //169.254.41.115 A, 169.254.50.139 B
+        private static string defaultSenderIP = "10.105.78.255"; //169.254.41.115 A, 169.254.50.139 B
         private bool SenderOn = true;
         private bool ReceiverOn = false;
         private static int ReceiverPort = 12000, SenderPort = 11000;//ReceiverPort is the port used by Receiver, SenderPort is the port used by Sender

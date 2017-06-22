@@ -26,9 +26,6 @@ using System.ComponentModel;
 
 namespace TeachView
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private static string defaultSenderIP = ""; //169.254.41.115 A, 169.254.50.139 B
@@ -55,9 +52,16 @@ namespace TeachView
         double clickHeight;
         double scrRatio = 0;
 
+        //Tracking
+        Dot tr0, tr1;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            tr0 = new Dot(System.Windows.Media.Colors.Purple, 5, canv);
+            tr1 = new Dot(System.Windows.Media.Colors.DarkRed, 5, canv);
+
             if (ReceiverOn)
             {
                 IPHostEntry ipHostInfo = Dns.GetHostByName(Dns.GetHostName());
@@ -86,8 +90,8 @@ namespace TeachView
 
         private void gazePoint(object s, EyeXFramework.GazePointEventArgs e)
         {
-            track.X = e.X;
-            track.Y = e.Y;
+            track.X = track.X*.7 + e.X*.3;
+            track.Y = track.Y*.7 + e.Y*.3;
         }
 
         private void update(object sender, EventArgs e)
@@ -111,24 +115,59 @@ namespace TeachView
             Canvas.SetTop(bg, scrRatio*(Canvas.GetTop(scrollBg) - Canvas.GetTop(scrollHandle)));
 
             //Tracking
-            Canvas.SetLeft(track1, bg.Width * receivedPoints[0].X);
-            Canvas.SetTop(track1, bg.Height * receivedPoints[0].Y);
+            tr0.next(fromReceived(receivedPoints[0]));
             Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[0].Y);
 
-            Canvas.SetLeft(track2, bg.Width * receivedPoints[1].X);
-            Canvas.SetTop(track2, bg.Height * receivedPoints[1].Y);
+            tr1.next(fromReceived(receivedPoints[1]));
             Canvas.SetTop(scrTrack2, scrollBg.Height * receivedPoints[1].Y);
+        }
 
-            //Point fromScreen = PointFromScreen(receivedPoints[0]);
-            //Canvas.SetLeft(track1, Canvas.GetLeft(track1) * .6 + (fromScreen.X - track1.Width / 2)*.4);
-            //Canvas.SetTop(track1, Canvas.GetTop(track1) * .6 + (fromScreen.Y - track1.Height / 2)*.4);
-            //Canvas.SetTop(scrTrack1, scrollBg.Height * ((Canvas.GetTop(track1) - Canvas.GetTop(bg)) / bg.Height));
+        private Point fromReceived(Point p) {
+            double x = p.X * bg.Width;
+            double y = p.Y * bg.Height + Canvas.GetTop(bg);
+            return new Point(x, y);
+        }
 
-            //fromScreen = PointFromScreen(receivedPoints[1]);
-            //Canvas.SetLeft(track2, Canvas.GetLeft(track2) * .6 + (fromScreen.X - track2.Width / 2) * .4);
-            //Canvas.SetTop(track2, Canvas.GetTop(track2) * .6 + (fromScreen.Y - track2.Height / 2) * .4);
-            //Canvas.SetTop(scrTrack2, scrollBg.Height * ((Canvas.GetTop(track2) - Canvas.GetTop(bg)) / bg.Height));
-            //Canvas.SetTop(dot, Canvas.GetTop(dot)*.6 + (fromScreen.Y - dot.Height / 2 + scroll.ContentVerticalOffset) *.4);
+        private class Dot {
+            private Ellipse body;
+            private Line[] trail;
+            private int trailEnd;
+            private int radius;
+
+            public Dot(System.Windows.Media.Color color, int len, Canvas canv) {
+                radius = 5;
+                trailEnd = 0;
+                Brush br = new SolidColorBrush(color);
+                body = new Ellipse();
+                Canvas.SetTop(body, 0);
+                Canvas.SetLeft(body, 0);
+                body.Width = radius * 2;
+                body.Height = radius * 2;
+                body.Fill = br;
+                canv.Children.Add(body);
+                trail = new Line[len];
+                for (int i = 0; i < len; i++) {
+                    trail[i] = new Line();
+                    trail[i].X1 = radius;
+                    trail[i].X2 = radius;
+                    trail[i].Y1 = radius;
+                    trail[i].Y2 = radius;
+                    trail[i].StrokeThickness = radius*2/3;
+                    trail[i].Stroke = br;
+                    trail[i].Opacity = .5;
+                    canv.Children.Add(trail[i]);
+                }
+            }
+
+            public void next(Point p) {
+                trail[trailEnd].X1 = p.X;
+                trail[trailEnd].Y1 = p.Y;
+                trail[trailEnd].X2 = Canvas.GetLeft(body) + radius;
+                trail[trailEnd].Y2 = Canvas.GetTop(body) + radius;
+                trailEnd = (trailEnd + 1) % trail.Length;
+                Canvas.SetLeft(body, p.X - radius);
+                Canvas.SetTop(body, p.Y - radius);
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

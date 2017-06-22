@@ -17,3 +17,22 @@ c:\users\researchsquad\documents\visual studio 2017\Projects\TeachView\TeachView
 c:\users\researchsquad\documents\visual studio 2017\Projects\TeachView\TeachView\bin\Debug\EyeXFramework.dll
 c:\users\researchsquad\documents\visual studio 2017\Projects\TeachView\TeachView\bin\Debug\EyeXFramework.pdb
 c:\users\researchsquad\documents\visual studio 2017\Projects\TeachView\TeachView\obj\Debug\TeachView_Content.g.cs
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\bin\Debug\Tobii.EyeX.Client.dll
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\bin\Debug\Tobii.EyeX.Client.Net20.dll
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\bin\Debug\TeachView.exe.config
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\bin\Debug\TeachView.exe
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\bin\Debug\TeachView.pdb
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\bin\Debug\EyeXFramework.dll
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\bin\Debug\EyeXFramework.pdb
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView.csprojResolveAssemblyReference.cache
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\MainWindow.g.cs
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\App.g.cs
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView_Content.g.cs
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView_MarkupCompile.cache
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView_MarkupCompile.lref
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\MainWindow.baml
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView.g.resources
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView.Properties.Resources.resources
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView.csproj.GenerateResource.Cache
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView.exe
+C:\Users\ResearchSquad\Documents\GitHub\LearnView\TeachView\TeachView\obj\Debug\TeachView.pdb
