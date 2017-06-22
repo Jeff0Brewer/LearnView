@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Forms;
 using EyeXFramework.Wpf;
 using Tobii.EyeX.Framework;
 using EyeXFramework;
@@ -60,7 +59,9 @@ namespace TeachView
             InitializeComponent();
 
             tr0 = new Dot(System.Windows.Media.Colors.Purple, 5, canv);
-            tr1 = new Dot(System.Windows.Media.Colors.DarkRed, 5, canv);
+            scrTrack0.Fill = new SolidColorBrush(System.Windows.Media.Colors.Purple);
+            tr1 = new Dot(System.Windows.Media.Colors.Red, 5, canv);
+            scrTrack1.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
 
             if (ReceiverOn)
             {
@@ -115,28 +116,29 @@ namespace TeachView
             Canvas.SetTop(bg, scrRatio*(Canvas.GetTop(scrollBg) - Canvas.GetTop(scrollHandle)));
 
             //Tracking
-            tr0.next(fromReceived(receivedPoints[0]));
-            Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[0].Y);
+            tr0.next(fromReceived(receivedPoints[0]), Canvas.GetTop(bg));
+            Canvas.SetTop(scrTrack0, scrollBg.Height * receivedPoints[0].Y);
 
-            tr1.next(fromReceived(receivedPoints[1]));
-            Canvas.SetTop(scrTrack2, scrollBg.Height * receivedPoints[1].Y);
+            tr1.next(fromReceived(receivedPoints[1]), Canvas.GetTop(bg));
+            Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[1].Y);
+
+            //tr0.next(PointFromScreen(track), 0);
         }
 
         private Point fromReceived(Point p) {
             double x = p.X * bg.Width;
-            double y = p.Y * bg.Height + Canvas.GetTop(bg);
+            double y = p.Y * bg.Height;
             return new Point(x, y);
         }
 
         private class Dot {
             private Ellipse body;
             private Line[] trail;
-            private int trailEnd;
+            private Point[] echo;
             private int radius;
 
             public Dot(System.Windows.Media.Color color, int len, Canvas canv) {
                 radius = 5;
-                trailEnd = 0;
                 Brush br = new SolidColorBrush(color);
                 body = new Ellipse();
                 Canvas.SetTop(body, 0);
@@ -146,27 +148,40 @@ namespace TeachView
                 body.Fill = br;
                 canv.Children.Add(body);
                 trail = new Line[len];
+                echo = new Point[len + 1];
+                echo[len] = new Point(0, 0);
+                double thickness = radius * 2;
+                double thickInc = thickness / len;
                 for (int i = 0; i < len; i++) {
+                    echo[i] = new Point(0, 0);
                     trail[i] = new Line();
                     trail[i].X1 = radius;
                     trail[i].X2 = radius;
                     trail[i].Y1 = radius;
                     trail[i].Y2 = radius;
-                    trail[i].StrokeThickness = radius*2/3;
+                    trail[i].StrokeThickness = thickness;
                     trail[i].Stroke = br;
                     trail[i].Opacity = .5;
                     canv.Children.Add(trail[i]);
+                    thickness -= thickInc;
                 }
             }
 
-            public void next(Point p) {
-                trail[trailEnd].X1 = p.X;
-                trail[trailEnd].Y1 = p.Y;
-                trail[trailEnd].X2 = Canvas.GetLeft(body) + radius;
-                trail[trailEnd].Y2 = Canvas.GetTop(body) + radius;
-                trailEnd = (trailEnd + 1) % trail.Length;
+            public void next(Point p, double offset) {
                 Canvas.SetLeft(body, p.X - radius);
-                Canvas.SetTop(body, p.Y - radius);
+                Canvas.SetTop(body, p.Y - radius + offset);
+                for (int i = echo.Length - 1; i > 0; i--) {
+                    echo[i].X = echo[i - 1].X;
+                    echo[i].Y = echo[i - 1].Y;
+                }
+                echo[0].X = p.X;
+                echo[0].Y = p.Y;
+                for (int i = 0; i < trail.Length; i++) {
+                    trail[i].X1 = echo[i].X;
+                    trail[i].Y1 = echo[i].Y + offset;
+                    trail[i].X2 = echo[i + 1].X;
+                    trail[i].Y2 = echo[i + 1].Y + offset;
+                }
             }
         }
 
