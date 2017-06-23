@@ -54,10 +54,27 @@ namespace TeachView
         //Tracking
         Dot tr0, tr1;
 
+        //Logging
+        StringBuilder csv = new StringBuilder();
+        String filePath;
+        String pathStart = "C:/Users/ResearchSquad/Documents/TeachLog/data";
+        int testOffset = 0;
+        int testNumber = 0; //Set for each new group
+
         public MainWindow()
         {
             InitializeComponent();
 
+            //Logging init
+            filePath = pathStart + testNumber + ".csv";
+            while (File.Exists(filePath))
+            {
+                testOffset++;
+                filePath = pathStart + testNumber + "-" + testOffset.ToString() + ".csv";
+            }
+            csv.AppendLine("Teacher X,Teacher Y,c0 X,c0 Y,c1 X, c1 Y,Time,Unix Time,Condition,Gaze");
+
+            //Tracking init
             tr0 = new Dot(System.Windows.Media.Colors.Purple, 5, canv);
             scrTrack0.Fill = new SolidColorBrush(System.Windows.Media.Colors.Purple);
             tr1 = new Dot(System.Windows.Media.Colors.Red, 5, canv);
@@ -87,6 +104,15 @@ namespace TeachView
             dispatcherTimer.Tick += new EventHandler(update);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             dispatcherTimer.Start();
+        }
+
+        private void logData()
+        {
+            Point p0 = fromReceived(receivedPoints[0]);
+            Point p1 = fromReceived(receivedPoints[1]);
+            String newLine = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", track.X, track.Y - Canvas.GetTop(bg), p0.X, p0.Y, p1.X, p1.Y,
+                                            DateTime.Now.TimeOfDay, DateTimeOffset.Now.ToUnixTimeMilliseconds(),"fill","fill");
+            csv.AppendLine(newLine);
         }
 
         private void gazePoint(object s, EyeXFramework.GazePointEventArgs e)
@@ -123,6 +149,9 @@ namespace TeachView
             Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[1].Y);
 
             //tr0.next(PointFromScreen(track), 0);
+            //Canvas.SetTop(scrTrack0, scrollBg.Height * (PointFromScreen(track).Y - Canvas.GetTop(bg)) / bg.Height);
+
+            logData();
         }
 
         private Point fromReceived(Point p) {
@@ -187,6 +216,7 @@ namespace TeachView
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            File.WriteAllText(filePath, csv.ToString());
             eyeXHost.Dispose();
         }
 
