@@ -116,13 +116,13 @@ namespace TeachView
             Canvas.SetTop(bg, scrRatio*(Canvas.GetTop(scrollBg) - Canvas.GetTop(scrollHandle)));
 
             //Tracking
-            tr0.next(fromReceived(receivedPoints[0]), Canvas.GetTop(bg));
-            Canvas.SetTop(scrTrack0, scrollBg.Height * receivedPoints[0].Y);
+            //tr0.next(fromReceived(receivedPoints[0]), Canvas.GetTop(bg));
+            //Canvas.SetTop(scrTrack0, scrollBg.Height * receivedPoints[0].Y);
 
             tr1.next(fromReceived(receivedPoints[1]), Canvas.GetTop(bg));
             Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[1].Y);
 
-            //tr0.next(PointFromScreen(track), 0);
+            tr0.next(PointFromScreen(track), 0);
         }
 
         private Point fromReceived(Point p) {
