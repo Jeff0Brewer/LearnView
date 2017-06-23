@@ -11,7 +11,7 @@
         <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="80" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
         <TextBlock Name="test" Text="" Panel.ZIndex="200" FontSize="30" Canvas.Top="0" Canvas.Left="0"></TextBlock>
         <Rectangle Name="topleft" Canvas.Top="0" Canvas.Left="0"></Rectangle>
-        <Rectangle Name="bg" Width="1500" Height="2714">
+        <Rectangle Name="bg" Width="1350" Height="2442.5">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="task1.jpg"></ImageBrush>
             </Rectangle.Fill>
