@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -52,7 +53,8 @@ namespace TeachView
         double scrRatio = 0;
 
         //Tracking
-        Dot tr0, tr1;
+        Scope tr0, tr1;
+        //Dot tr0, tr1;
 
         //Logging
         StringBuilder csv = new StringBuilder();
@@ -75,9 +77,13 @@ namespace TeachView
             csv.AppendLine("Teacher X,Teacher Y,c0 X,c0 Y,c1 X, c1 Y,Time,Unix Time,Condition,Gaze");
 
             //Tracking init
-            tr0 = new Dot(System.Windows.Media.Colors.Purple, 5, canv);
+            //tr0 = new Dot(System.Windows.Media.Colors.Purple, 5, canv);
+            //tr1 = new Dot(System.Windows.Media.Colors.Red, 5, canv);
+
+            tr0 = new Scope(System.Windows.Media.Colors.Purple, 70, 20, canv);
+            tr1 = new Scope(System.Windows.Media.Colors.Red, 70, 20, canv);
+
             scrTrack0.Fill = new SolidColorBrush(System.Windows.Media.Colors.Purple);
-            tr1 = new Dot(System.Windows.Media.Colors.Red, 5, canv);
             scrTrack1.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
 
             if (ReceiverOn)
@@ -117,8 +123,8 @@ namespace TeachView
 
         private void gazePoint(object s, EyeXFramework.GazePointEventArgs e)
         {
-            track.X = track.X*.7 + e.X*.3;
-            track.Y = track.Y*.7 + e.Y*.3;
+            track.X = track.X*.9 + e.X*.1;
+            track.Y = track.Y*.9 + e.Y*.1;
         }
 
         private void update(object sender, EventArgs e)
@@ -142,22 +148,122 @@ namespace TeachView
             Canvas.SetTop(bg, scrRatio*(Canvas.GetTop(scrollBg) - Canvas.GetTop(scrollHandle)));
 
             //Tracking
-            tr0.next(fromReceived(receivedPoints[0]), Canvas.GetTop(bg));
-            Canvas.SetTop(scrTrack0, scrollBg.Height * receivedPoints[0].Y);
+            //tr0.next(fromReceived(receivedPoints[0]), Canvas.GetTop(bg));
+            //Canvas.SetTop(scrTrack0, scrollBg.Height * receivedPoints[0].Y);
 
-            tr1.next(fromReceived(receivedPoints[1]), Canvas.GetTop(bg));
-            Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[1].Y);
+            //tr1.next(fromReceived(receivedPoints[1]), Canvas.GetTop(bg));
+            //Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[1].Y);
 
-            //tr0.next(PointFromScreen(track), 0);
-            //Canvas.SetTop(scrTrack0, scrollBg.Height * (PointFromScreen(track).Y - Canvas.GetTop(bg)) / bg.Height);
+            tr0.next(PointFromScreen(track), 0);
+            Canvas.SetTop(scrTrack0, scrollBg.Height * (PointFromScreen(track).Y - Canvas.GetTop(bg)) / bg.Height);
 
             logData();
+
+            //Calibration
+            if(scrollWheel.Opacity > 0)
+                scrollWheel.Opacity -= .01;
         }
 
         private Point fromReceived(Point p) {
             double x = p.X * bg.Width;
             double y = p.Y * bg.Height;
             return new Point(x, y);
+        }
+
+        private class Scope {
+            private Ellipse[] lens;
+            private Point[] echo;
+            private double radius;
+            private double currRad;
+            private double stretch;
+
+            public Scope(System.Windows.Media.Color color, double rad, int len, Canvas canv)
+            {
+                stretch = 3;
+                Brush br = new SolidColorBrush(color);
+                radius = rad;
+                currRad = rad;
+                lens = new Ellipse[len];
+                echo = new Point[len];
+                double opacity = .2;
+                double opacityInc = opacity / (len-1);
+                for (int i = 0; i < len; i++) {
+                    echo[i] = new Point(0, 0);
+                    lens[i] = new Ellipse();
+                    lens[i].Width = radius * 2;
+                    lens[i].Height = radius * 2;
+                    lens[i].Stroke = br;
+                    lens[i].StrokeThickness = stretch;
+                    Canvas.SetLeft(lens[i], 0);
+                    Canvas.SetTop(lens[i], 0);
+                    lens[i].Opacity = opacity;
+                    opacity -= opacityInc;
+                    canv.Children.Add(lens[i]);
+                }
+                lens[0].Opacity = .5;
+            }
+
+            public void next(Point p, double offset) {
+                double estSpd = Math.Sqrt(Math.Pow(p.X - echo[0].X, 2) + Math.Pow(p.Y - echo[0].Y, 2));
+                double rat = estSpd / 50;
+                rat = (rat > 1) ? 1 : rat;
+                for (int i = echo.Length - 1; i > 0; i--) {
+                    echo[i].X = echo[i - 1].X;
+                    echo[i].Y = echo[i - 1].Y;
+                }
+                echo[0].X = p.X;
+                echo[0].Y = p.Y;
+
+                Point currPoint = p;
+                int currEchoInd = 0;
+                Point currEcho = new Point(echo[0].X - currPoint.X, echo[0].Y - currPoint.Y);
+                double currEchoDist = 0;
+                bool sub = false;
+                Canvas.SetLeft(lens[0], currPoint.X - currRad);
+                Canvas.SetTop(lens[0], currPoint.Y - currRad + offset);
+                lens[0].Width = 2*currRad;
+                lens[0].Height = 2*currRad;
+                for (int i = 1; i < lens.Length; i++) {
+                    lens[i].Width = 2*currRad;
+                    lens[i].Height = 2*currRad;
+                    if (currEchoDist < stretch && sub)
+                    {
+                        sub = false;
+                        currEchoInd++;
+                        currEcho.X = echo[currEchoInd].X - currPoint.X;
+                        currEcho.Y = echo[currEchoInd].Y - currPoint.Y;
+                        currEchoDist = Math.Sqrt(Math.Pow(currEcho.X, 2) + Math.Pow(currEcho.Y, 2));
+                    }
+                    if (currEchoDist < stretch && !sub)
+                    {
+                        //currPoint.X += currEcho.X;
+                        //currPoint.Y += currEcho.Y;
+                        //Canvas.SetLeft(lens[i], currPoint.X - currRad);
+                        //Canvas.SetTop(lens[i], currPoint.Y - currRad);
+                        Canvas.SetLeft(lens[i], p.X - currRad);
+                        Canvas.SetTop(lens[i], p.Y - currRad + offset);
+                        lens[i].Visibility = Visibility.Hidden;
+                        currEchoInd++;
+                        currEcho.X = echo[currEchoInd].X - currPoint.X;
+                        currEcho.Y = echo[currEchoInd].Y - currPoint.Y;
+                        currEchoDist = Math.Sqrt(Math.Pow(currEcho.X, 2) + Math.Pow(currEcho.Y, 2));
+                    }
+                    else
+                    {
+                        double shiftX = 3 * currEcho.X / currEchoDist;
+                        double shiftY = 3 * currEcho.Y / currEchoDist;
+                        currPoint.X += shiftX;
+                        currPoint.Y += shiftY;
+                        Canvas.SetLeft(lens[i], currPoint.X - currRad);
+                        Canvas.SetTop(lens[i], currPoint.Y - currRad + offset);
+                        lens[i].Visibility = Visibility.Visible;
+                        currEchoDist -= stretch;
+                        currEcho.X -= shiftX;
+                        currEcho.Y -= shiftY;
+                        sub = true;
+                    }
+                }
+            }
         }
 
         private class Dot {
@@ -214,6 +320,25 @@ namespace TeachView
             }
         }
 
+        private void checkCal(object sender, MouseButtonEventArgs e)
+        {
+            Point fromScreen = PointFromScreen(track);
+            if (dist(fromScreen, e.GetPosition(topleft)) < 70)
+            {
+                scrollWheel.Opacity = .25;
+                scrollWheel.Fill = new SolidColorBrush(System.Windows.Media.Colors.CornflowerBlue);
+            }
+            else
+            {
+                scrollWheel.Opacity = .25;
+                scrollWheel.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+            }
+        }
+
+        private double dist(Point a, Point b) {
+            return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             File.WriteAllText(filePath, csv.ToString());
@@ -247,6 +372,10 @@ namespace TeachView
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            double ratio = bg.Height / bg.Width;
+            double availableWidth = this.ActualWidth - SystemParameters.WindowNonClientFrameThickness.Left - SystemParameters.WindowNonClientFrameThickness.Right - scrollBg.Width;
+            bg.Width = availableWidth;
+            bg.Height = availableWidth * ratio;
             double availableHeight = this.ActualHeight - SystemParameters.WindowNonClientFrameThickness.Top - SystemParameters.WindowNonClientFrameThickness.Bottom;
             scrollBg.Height = availableHeight;
             scrollHandle.Height = (availableHeight / bg.Height) * scrollBg.Height;
@@ -299,6 +428,7 @@ namespace TeachView
 
             //AsynchronousSocketListener.StartListening();
         }
+
         public class StateObject
         {
             // Client  socket.

@@ -7,13 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" WindowState="Maximized">
     <Canvas>
-        <TextBlock Panel.ZIndex="750" Name="Receive_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="30" MaxWidth="266.67" Text="Receiving Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
-        <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="80" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
+        <TextBlock Panel.ZIndex="750" Name="Receive_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="30" MaxWidth="266.67" Text="Receiving Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Hidden"/>
+        <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="80" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Hidden"/>
         <TextBlock Name="test" Text="" Panel.ZIndex="200" FontSize="30" Canvas.Top="0" Canvas.Left="0"></TextBlock>
         <Rectangle Name="topleft" Canvas.Top="0" Canvas.Left="0"></Rectangle>
-        <Rectangle Name="bg" Width="1350" Height="2442.5">
+        <Rectangle Name="bg" Width="2476" Height="4822">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="task1.jpg"></ImageBrush>
+                <ImageBrush ImageSource="task1-1.jpg"></ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle Name="scrollHover" Panel.ZIndex="1000" Canvas.Left="-2000" Canvas.Top="0" PreviewMouseUp="scrUnclick" MouseMove="scrMove" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>

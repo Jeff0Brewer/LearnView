@@ -60,13 +60,13 @@ namespace StudentView
                 IPHostEntry ipHostInfo = Dns.GetHostByName(Dns.GetHostName());
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 Receive_Status_Text.Text = "Receiving Data at\nIP:" + ipAddress.ToString();
-                Receive_Status_Text.Visibility = Visibility.Visible;
+                Receive_Status_Text.Visibility = Visibility.Hidden;
             }
             if (SenderOn)
             {
                 SenderIP = defaultSenderIP;
                 Share_Status_Text.Text = "Sharing Data to\nIP:" + SenderIP.ToString();
-                Share_Status_Text.Visibility = Visibility.Visible;
+                Share_Status_Text.Visibility = Visibility.Hidden;
                 communication_started_Sender = false;
             }
 
@@ -83,8 +83,8 @@ namespace StudentView
 
         private void gazePoint(object s, EyeXFramework.GazePointEventArgs e)
         {
-            track.X = track.X*.7 + e.X*.3;
-            track.Y = track.Y*.7 + e.Y*.3;
+            track.X = track.X*.8 + e.X*.2;
+            track.Y = track.Y*.8 + e.Y*.2;
         }
 
         private void update(object sender, EventArgs e)
@@ -150,6 +150,10 @@ namespace StudentView
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            double ratio = bg.Height / bg.Width;
+            double availableWidth = this.ActualWidth - SystemParameters.WindowNonClientFrameThickness.Left - SystemParameters.WindowNonClientFrameThickness.Right - scrollBg.Width;
+            bg.Width = availableWidth;
+            bg.Height = availableWidth * ratio;
             double availableHeight = this.ActualHeight - SystemParameters.WindowNonClientFrameThickness.Top - SystemParameters.WindowNonClientFrameThickness.Bottom;
             scrollBg.Height = availableHeight;
             scrollHandle.Height = (availableHeight / bg.Height) * scrollBg.Height;
