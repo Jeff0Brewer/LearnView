@@ -27,13 +27,11 @@ namespace StudentView
 {
     public partial class MainWindow : Window
     {
-        private static string defaultSenderIP = "10.105.78.255"; //169.254.41.115 A, 169.254.50.139 B
+        private int studentNum = 0; //0, 1, or 2
+        private static string defaultSenderIP = "192.168.2.3";
         private bool SenderOn = true;
-        private bool ReceiverOn = false;
         private static int ReceiverPort = 12000, SenderPort = 11000;//ReceiverPort is the port used by Receiver, SenderPort is the port used by Sender
-        private bool communication_started_Receiver = false;//indicates whether the Receiver is ready to receive message(coordinates). Used for thread control
         private bool communication_started_Sender = false;//Indicate whether the program is sending its coordinates to others. Used for thread control
-        private System.Threading.Thread communicateThread_Receiver; //Thread for receiver
         private System.Threading.Thread communicateThread_Sender;   //Thread for sender
         private static string SenderIP = "", ReceiverIP = ""; //The IP's for sender and receiver.
         private static string IPpat = @"(\d+)(\.)(\d+)(\.)(\d+)(\.)(\d+)\s+"; // regular expression used for matching ip address
@@ -55,18 +53,11 @@ namespace StudentView
         public MainWindow()
         {
             InitializeComponent();
-            if (ReceiverOn)
-            {
-                IPHostEntry ipHostInfo = Dns.GetHostByName(Dns.GetHostName());
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
-                Receive_Status_Text.Text = "Receiving Data at\nIP:" + ipAddress.ToString();
-                Receive_Status_Text.Visibility = Visibility.Hidden;
-            }
             if (SenderOn)
             {
                 SenderIP = defaultSenderIP;
                 Share_Status_Text.Text = "Sharing Data to\nIP:" + SenderIP.ToString();
-                Share_Status_Text.Visibility = Visibility.Hidden;
+                Share_Status_Text.Visibility = Visibility.Visible;
                 communication_started_Sender = false;
             }
 
@@ -75,12 +66,33 @@ namespace StudentView
             var gazeData = eyeXHost.CreateGazePointDataStream(GazePointDataMode.LightlyFiltered);
             gazeData.Next += gazePoint;
 
-            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Render);
+            // Set up timer
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Render);
             dispatcherTimer.Tick += new EventHandler(update);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             dispatcherTimer.Start();
+
+            // Set up indicator of computer number
+            switch(studentNum)
+            {
+                case 0:
+                    StudentIndicator.Content = "Student 0";
+                    StudentIndicator.Background = new SolidColorBrush(System.Windows.Media.Colors.Purple);
+                    break;
+                case 1:
+                    StudentIndicator.Content = "Student 1";
+                    StudentIndicator.Background = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                    break;
+                case 2:
+                    StudentIndicator.Content = "Student 2";
+                    StudentIndicator.Background = new SolidColorBrush(System.Windows.Media.Colors.CornflowerBlue);
+                    break;                   
+            }
         }
 
+        /*
+         * Update gaze point (track) from new gaze position.
+         */
         private void gazePoint(object s, EyeXFramework.GazePointEventArgs e)
         {
             track.X = track.X*.8 + e.X*.2;
@@ -96,23 +108,13 @@ namespace StudentView
             //Canvas.SetTop(tempTrack, fromScreen.Y);
             //Canvas.SetLeft(tempTrack, fromScreen.X);
 
-            //Canvas.SetTop(test, fromScreen.Y - 40);
-            //Canvas.SetLeft(test, fromScreen.X);
-
             toSend.X = fromScreen.X / bg.Width;
             toSend.Y = (fromScreen.Y - Canvas.GetTop(bg)) / bg.Height;
 
-            //test.Text = toSend.ToString();
+            test.Text = toSend.ToString();
 
             //Sending
-            sending = "c0" + toSend.X.ToString() + "|" + toSend.Y.ToString();
-
-            if (ReceiverOn && communication_started_Receiver == false)
-            {
-                communication_started_Receiver = true;
-                communicateThread_Receiver = new System.Threading.Thread(new ThreadStart(() => tryCommunicateReceiver(sending)));
-                communicateThread_Receiver.Start();
-            }
+            sending = "c" + studentNum + toSend.X.ToString() + "|" + toSend.Y.ToString();
 
             //If user pressed Sender button but communication haven't started yet or has terminated, start a thread on tryCommunicateSender()
             if (SenderOn && communication_started_Sender == false)
@@ -123,6 +125,7 @@ namespace StudentView
             }
         }
 
+        #region Scroll Methods
         private void scrClick(object sender, MouseButtonEventArgs e)
         {
             Canvas.SetLeft(scrollHover, 0);
@@ -147,7 +150,11 @@ namespace StudentView
             h = (h < Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height) ? h : Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height;
             Canvas.SetTop(scrollHandle, (h > 0) ? h : 0);
         }
+        #endregion
 
+        /*
+         * Set up window and scroll dimensions
+         */
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             double ratio = bg.Height / bg.Width;
@@ -160,19 +167,14 @@ namespace StudentView
             scrRatio = (bg.Height - availableHeight) / (scrollBg.Height - scrollHandle.Height);
         }
 
-        #region socket stuff
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             //CleanUp();
-            //SenderOn = false;
-            //ReceiverOn = false;
-            communication_started_Receiver = false;
             communication_started_Sender = false;
             //dispatcherTimer.Stop();
             //eyeXHost.Dispose();
             try
             {
-                communicateThread_Receiver.Abort();
                 communicateThread_Sender.Abort();
             }
             catch (Exception ex)
@@ -183,6 +185,7 @@ namespace StudentView
 
         }
 
+        #region socket stuff
         public void tryCommunicateReceiver(String x)
         {
             IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());

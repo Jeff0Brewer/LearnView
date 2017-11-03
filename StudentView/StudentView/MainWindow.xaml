@@ -7,9 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" WindowState="Maximized">
     <Canvas>
-        <TextBlock Panel.ZIndex="750" Name="Receive_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="30" MaxWidth="266.67" Text="Receiving Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Hidden"/>
-        <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="80" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Hidden"/>
-        <TextBlock Name="test" Text="" Panel.ZIndex="200" FontSize="30" Canvas.Top="0" Canvas.Left="0"></TextBlock>
+        <TextBlock Name="test" Text="Sending data will appear here" Panel.ZIndex="200" Canvas.Top="0" Canvas.Left="0"></TextBlock>
+        <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="30" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
+        <Button Panel.ZIndex="750" Name="StudentIndicator" Height="40" Width="100" Canvas.Right="30" Canvas.Top="80" Visibility="Visible"
+                   Content="Student #" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Gray" Foreground="White"></Button>
         <Rectangle Name="topleft" Canvas.Top="0" Canvas.Left="0"></Rectangle>
         <Rectangle Name="bg" Width="2476" Height="4822">
             <Rectangle.Fill>
