@@ -53,7 +53,7 @@ namespace TeachView
         double scrRatio = 0;
 
         //Tracking
-        Scope tr0, tr1;
+        Scope tr0, tr1, tr2;
         //Dot tr0, tr1;
 
         //Logging
@@ -82,9 +82,11 @@ namespace TeachView
 
             tr0 = new Scope(System.Windows.Media.Colors.Purple, 70, 20, canv);
             tr1 = new Scope(System.Windows.Media.Colors.Red, 70, 20, canv);
+            tr2 = new Scope(System.Windows.Media.Colors.Blue, 70, 20, canv);
 
             scrTrack0.Fill = new SolidColorBrush(System.Windows.Media.Colors.Purple);
             scrTrack1.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+            scrTrack2.Fill = new SolidColorBrush(System.Windows.Media.Colors.Blue);
 
             if (ReceiverOn)
             {
@@ -116,7 +118,8 @@ namespace TeachView
         {
             Point p0 = fromReceived(receivedPoints[0]);
             Point p1 = fromReceived(receivedPoints[1]);
-            String newLine = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", track.X, track.Y - Canvas.GetTop(bg), p0.X, p0.Y, p1.X, p1.Y,
+            Point p2 = fromReceived(receivedPoints[2]);
+            String newLine = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", track.X, track.Y - Canvas.GetTop(bg), p0.X, p0.Y, p1.X, p1.Y, p2.X, p2.Y,
                                             DateTime.Now.TimeOfDay, DateTimeOffset.Now.ToUnixTimeMilliseconds(),"fill","fill");
             csv.AppendLine(newLine);
         }
@@ -142,20 +145,20 @@ namespace TeachView
                 communicateThread_Sender = new System.Threading.Thread(new ThreadStart(() => tryCommunicateSender(sending)));
                 communicateThread_Sender.Start();
             }
-            test.Text = received[0] + " " + received[1];
+            test.Text = received[0] + " " + received[1] + " " + received[2];
 
             //Scrolling
             Canvas.SetTop(bg, scrRatio*(Canvas.GetTop(scrollBg) - Canvas.GetTop(scrollHandle)));
 
             //Tracking
-            //tr0.next(fromReceived(receivedPoints[0]), Canvas.GetTop(bg));
-            //Canvas.SetTop(scrTrack0, scrollBg.Height * receivedPoints[0].Y);
+            tr0.next(fromReceived(receivedPoints[0]), Canvas.GetTop(bg));
+            Canvas.SetTop(scrTrack0, scrollBg.Height * receivedPoints[0].Y);
 
-            //tr1.next(fromReceived(receivedPoints[1]), Canvas.GetTop(bg));
-            //Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[1].Y);
+            tr1.next(fromReceived(receivedPoints[1]), Canvas.GetTop(bg));
+            Canvas.SetTop(scrTrack1, scrollBg.Height * receivedPoints[1].Y);
 
-            tr0.next(PointFromScreen(track), 0);
-            Canvas.SetTop(scrTrack0, scrollBg.Height * (PointFromScreen(track).Y - Canvas.GetTop(bg)) / bg.Height);
+            tr2.next(fromReceived(receivedPoints[2]), Canvas.GetTop(bg));
+            Canvas.SetTop(scrTrack2, scrollBg.Height * receivedPoints[2].Y);
 
             logData();
 

@@ -18,6 +18,7 @@
         </Rectangle>
         <Rectangle Name="scrTrack0" Panel.ZIndex="940" Width="20" Height="5" Fill="CornflowerBlue" Opacity=".6" Canvas.Right="0" Canvas.Top="0"></Rectangle>
         <Rectangle Name="scrTrack1" Panel.ZIndex="940" Width="20" Height="5" Fill="CornflowerBlue" Opacity=".6" Canvas.Right="0" Canvas.Top="0"></Rectangle>
+        <Rectangle Name="scrTrack2" Panel.ZIndex="940" Width="20" Height="5" Fill="CornflowerBlue" Opacity=".6" Canvas.Right="0" Canvas.Top="0"></Rectangle>
         <Rectangle Name="scrollHover" Panel.ZIndex="1000" Canvas.Left="-2000" Canvas.Top="0" PreviewMouseUp="scrUnclick" MouseMove="scrMove" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
         <Rectangle Name="scrollWheel" PreviewMouseWheel="scrWheel" Panel.ZIndex="900" Canvas.Left="0" Canvas.Top="0" Width="2000" Height="20000" Fill="White" Opacity="0" PreviewMouseRightButtonDown="checkCal"></Rectangle>
         <Rectangle Name="scrollBg" Width="20" Height="500" Fill="LightGray" Canvas.Right="0" Canvas.Top="0"></Rectangle>
