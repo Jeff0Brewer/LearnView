@@ -9,7 +9,7 @@
     <Canvas Name="canv">
         <TextBlock Name="test" Text=" " Panel.ZIndex="750"></TextBlock>
         <TextBlock Panel.ZIndex="750" Name="Receive_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="30" MaxWidth="266.67" Text="Receiving Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
-        <TextBlock Panel.ZIndex="750" Name="Share_Status_Text" Foreground="Black" Background="Transparent" Canvas.Right="30" Canvas.Top="80" MaxWidth="266.67" Text="Sharing Data" TextAlignment="Right" FontSize="18" HorizontalAlignment="Center" Visibility="Visible"/>
+
         <Rectangle Name="topleft" Canvas.Top="0" Canvas.Left="0"></Rectangle>
         <Rectangle Name="bg" Width="2476" Height="4822">
             <Rectangle.Fill>

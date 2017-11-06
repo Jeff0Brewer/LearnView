@@ -29,7 +29,6 @@ namespace TeachView
     public partial class MainWindow : Window
     {
         private static string defaultSenderIP = ""; //169.254.41.115 A, 169.254.50.139 B
-        private bool SenderOn = false;
         private bool ReceiverOn = true;
         private static int ReceiverPort = 11000, SenderPort = 11000;//ReceiverPort is the port used by Receiver, SenderPort is the port used by Sender
         private bool communication_started_Receiver = false;//indicates whether the Receiver is ready to receive message(coordinates). Used for thread control
@@ -59,7 +58,7 @@ namespace TeachView
         //Logging
         StringBuilder csv = new StringBuilder();
         String filePath;
-        String pathStart = "C:/Users/ResearchSquad/Documents/TeachLog/data";
+        String pathStart = "C:/Users/Master/Documents/TeachLog/data";
         int testOffset = 0;
         int testNumber = 0; //Set for each new group
 
@@ -94,13 +93,6 @@ namespace TeachView
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 Receive_Status_Text.Text = "Receiving Data at\nIP:" + ipAddress.ToString();
                 Receive_Status_Text.Visibility = Visibility.Visible;
-            }
-            if (SenderOn)
-            {
-                SenderIP = defaultSenderIP;
-                Share_Status_Text.Text = "Sharing Data to\nIP:" + SenderIP.ToString();
-                Share_Status_Text.Visibility = Visibility.Visible;
-                communication_started_Sender = false;
             }
 
             eyeXHost = new EyeXHost();
@@ -139,12 +131,7 @@ namespace TeachView
                 communicateThread_Receiver = new System.Threading.Thread(new ThreadStart(() => tryCommunicateReceiver(sending)));
                 communicateThread_Receiver.Start();
             }
-            if (SenderOn && communication_started_Sender == false)
-            {
-                communication_started_Sender = true;
-                communicateThread_Sender = new System.Threading.Thread(new ThreadStart(() => tryCommunicateSender(sending)));
-                communicateThread_Sender.Start();
-            }
+
             test.Text = received[0] + " " + received[1] + " " + received[2];
 
             //Scrolling
@@ -390,16 +377,12 @@ namespace TeachView
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             //CleanUp();
-            //SenderOn = false;
-            //ReceiverOn = false;
             communication_started_Receiver = false;
-            communication_started_Sender = false;
             //dispatcherTimer.Stop();
             //eyeXHost.Dispose();
             try
             {
                 communicateThread_Receiver.Abort();
-                communicateThread_Sender.Abort();
             }
             catch (Exception ex)
             {
