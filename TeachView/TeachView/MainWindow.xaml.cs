@@ -81,11 +81,11 @@ namespace TeachView
 
             tr0 = new Scope(System.Windows.Media.Colors.Purple, 70, 20, canv);
             tr1 = new Scope(System.Windows.Media.Colors.Red, 70, 20, canv);
-            tr2 = new Scope(System.Windows.Media.Colors.Blue, 70, 20, canv);
+            tr2 = new Scope(System.Windows.Media.Colors.CornflowerBlue, 70, 20, canv);
 
             scrTrack0.Fill = new SolidColorBrush(System.Windows.Media.Colors.Purple);
             scrTrack1.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
-            scrTrack2.Fill = new SolidColorBrush(System.Windows.Media.Colors.Blue);
+            scrTrack2.Fill = new SolidColorBrush(System.Windows.Media.Colors.CornflowerBlue);
 
             if (ReceiverOn)
             {
@@ -147,6 +147,20 @@ namespace TeachView
             tr2.next(fromReceived(receivedPoints[2]), Canvas.GetTop(bg));
             Canvas.SetTop(scrTrack2, scrollBg.Height * receivedPoints[2].Y);
 
+            //Active students buttons
+            if (Student0Button.Visibility==Visibility.Hidden && received[0]!=null)
+            {
+                Student0Button.Visibility = Visibility.Visible;
+            }
+            if (Student0Button.Visibility == Visibility.Hidden && received[1] != null)
+            {
+                Student1Button.Visibility = Visibility.Visible;
+            }
+            if (Student0Button.Visibility == Visibility.Hidden && received[2] != null)
+            {
+                Student2Button.Visibility = Visibility.Visible;
+            }
+            
             logData();
 
             //Calibration
@@ -373,6 +387,23 @@ namespace TeachView
             
         }
 
+        #region Buttons
+        private void Student0Button_Click(object sender, RoutedEventArgs e)
+        {
+            //code here
+        }
+
+        private void Student1Button_Click(object sender, RoutedEventArgs e)
+        {
+            //code here
+        }
+
+        private void Student2Button_Click(object sender, RoutedEventArgs e)
+        {
+            //code here
+        }
+        #endregion
+
         #region socket stuff
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
@@ -403,6 +434,7 @@ namespace TeachView
             }
             AsynchronousSocketListener.StartListening();
         }
+
         public void tryCommunicateSender(String x)
         {
             while (SenderIP == "")
