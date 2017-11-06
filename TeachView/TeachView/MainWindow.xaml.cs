@@ -13,9 +13,9 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using EyeXFramework.Wpf;
-using Tobii.EyeX.Framework;
-using EyeXFramework;
+//using EyeXFramework.Wpf;
+//using Tobii.EyeX.Framework;
+//using EyeXFramework;
 
 using System.Net;
 using System.Net.Sockets;
@@ -44,7 +44,7 @@ namespace TeachView
         private static String[] received = new String[5];
         private static Point[] receivedPoints = new Point[5];
 
-        EyeXHost eyeXHost;
+        //EyeXHost eyeXHost;
         Point track = new Point(0, 0);
         
         //Custom scrollbar
@@ -95,10 +95,10 @@ namespace TeachView
                 Receive_Status_Text.Visibility = Visibility.Visible;
             }
 
-            eyeXHost = new EyeXHost();
-            eyeXHost.Start();
-            var gazeData = eyeXHost.CreateGazePointDataStream(GazePointDataMode.LightlyFiltered);
-            gazeData.Next += gazePoint;
+            //eyeXHost = new EyeXHost();
+            //eyeXHost.Start();
+            //var gazeData = eyeXHost.CreateGazePointDataStream(GazePointDataMode.LightlyFiltered);
+            //gazeData.Next += gazePoint;
 
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Render);
             dispatcherTimer.Tick += new EventHandler(update);
@@ -346,7 +346,7 @@ namespace TeachView
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             File.WriteAllText(filePath, csv.ToString());
-            eyeXHost.Dispose();
+            //eyeXHost.Dispose();
         }
 
         private void scrClick(object sender, MouseButtonEventArgs e)

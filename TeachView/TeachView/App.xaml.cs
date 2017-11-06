@@ -16,11 +16,11 @@ namespace TeachView
     {
         // Keep a reference to the host so it is not garbage
         // collected.
-        private WpfEyeXHost _eyeXHost;
+        //private WpfEyeXHost _eyeXHost;
         public App()
         {
-            _eyeXHost = new WpfEyeXHost();
-            _eyeXHost.Start();
+            //_eyeXHost = new WpfEyeXHost();
+            //_eyeXHost.Start();
         }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -31,7 +31,7 @@ namespace TeachView
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            _eyeXHost.Dispose(); // always dispose on exit
+            //_eyeXHost.Dispose(); // always dispose on exit
         }
     }
 }
