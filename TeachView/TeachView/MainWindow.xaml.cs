@@ -349,6 +349,7 @@ namespace TeachView
             //eyeXHost.Dispose();
         }
 
+        #region Scroll Methods
         private void scrClick(object sender, MouseButtonEventArgs e)
         {
             Canvas.SetLeft(scrollHover, 0);
@@ -373,6 +374,7 @@ namespace TeachView
             h = (h < Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height) ? h : Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height;
             Canvas.SetTop(scrollHandle, (h > 0) ? h : 0);
         }
+        #endregion
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -390,17 +392,25 @@ namespace TeachView
         #region Buttons
         private void Student0Button_Click(object sender, RoutedEventArgs e)
         {
-            //code here
+            scrollToStudent(0);
         }
-
         private void Student1Button_Click(object sender, RoutedEventArgs e)
         {
-            //code here
+            scrollToStudent(1);
         }
-
         private void Student2Button_Click(object sender, RoutedEventArgs e)
         {
-            //code here
+            scrollToStudent(2);
+        }
+        private void scrollToStudent(int studentNum)
+        {
+            //move scrollbar
+            double h = scrollBg.Height * receivedPoints[studentNum].Y - scrollHandle.Height/2;
+            h = (h < Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height) ? h : Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height;
+            Canvas.SetTop(scrollHandle, (h > 0) ? h : 0);
+
+            //move background
+            Canvas.SetTop(bg, scrRatio * (Canvas.GetTop(scrollBg) - Canvas.GetTop(scrollHandle)));
         }
         #endregion
 
