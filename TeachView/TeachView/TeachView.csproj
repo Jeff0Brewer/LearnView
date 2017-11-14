@@ -103,6 +103,7 @@
   <ItemGroup>
     <Resource Include="testbg.jpg" />
     <Resource Include="task1-1.jpg" />
+    <Resource Include="MultiStudentTask.jpg" />
     <Content Include="Tobii.EyeX.Client.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
