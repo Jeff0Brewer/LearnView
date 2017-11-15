@@ -18,7 +18,7 @@
         <Rectangle Name="topleft" Canvas.Top="0" Canvas.Left="0"></Rectangle>
         <Rectangle Name="bg" Width="2476" Height="6930">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="MultiStudentTask.jpg"></ImageBrush>
+                <ImageBrush ImageSource="TaskImage.jpg"></ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle Name="scrTrack0" Panel.ZIndex="940" Width="20" Height="5" Fill="CornflowerBlue" Opacity=".6" Canvas.Right="0" Canvas.Top="0"></Rectangle>

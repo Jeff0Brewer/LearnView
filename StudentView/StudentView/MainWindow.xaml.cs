@@ -28,7 +28,7 @@ namespace StudentView
     public partial class MainWindow : Window
     {
         private int studentNum = 2; //0, 1, or 2
-        private static string defaultSenderIP = "192.168.2.2";
+        private static string defaultSenderIP = "192.168.2.6";
         private bool SenderOn = true;
         private static int ReceiverPort = 12000, SenderPort = 11000;//ReceiverPort is the port used by Receiver, SenderPort is the port used by Sender
         private bool communication_started_Sender = false;//Indicate whether the program is sending its coordinates to others. Used for thread control

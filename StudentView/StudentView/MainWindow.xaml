@@ -14,7 +14,7 @@
         <Rectangle Name="topleft" Canvas.Top="0" Canvas.Left="0"></Rectangle>
         <Rectangle Name="bg" Width="2476" Height="6930">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="MultiStudentTask.jpg"></ImageBrush>
+                <ImageBrush ImageSource="TaskImage.jpg"></ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle Name="scrollHover" Panel.ZIndex="1000" Canvas.Left="-2000" Canvas.Top="0" PreviewMouseUp="scrUnclick" MouseMove="scrMove" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
