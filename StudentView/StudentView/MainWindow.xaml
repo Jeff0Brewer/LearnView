@@ -20,6 +20,7 @@
         <Rectangle Name="scrollHover" Panel.ZIndex="1000" Canvas.Left="-2000" Canvas.Top="0" PreviewMouseUp="scrUnclick" MouseMove="scrMove" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
         <Rectangle Name="scrollWheel" PreviewMouseWheel="scrWheel" Panel.ZIndex="900" Canvas.Left="0" Canvas.Top="0" Width="2000" Height="20000" Fill="White" Opacity="0"></Rectangle>
         <Rectangle Name="scrollBg" Width="20" Height="500" Fill="LightGray" Canvas.Right="0" Canvas.Top="0"></Rectangle>
+        <Rectangle Panel.ZIndex="945" Name="clickableScrollBg" Width="20" Height="500" Fill="Transparent" Canvas.Right="0" Canvas.Top="0" MouseLeftButtonDown="clickableScrollBg_MouseLeftButtonDown"></Rectangle>
         <Rectangle Name="scrollHandle" RadiusX="30" RadiusY="2" Panel.ZIndex="950" Width="10" Height="100" Fill="LightSlateGray" Opacity=".8" Canvas.Right="5" Canvas.Top="0" PreviewMouseDown="scrClick"></Rectangle>
     </Canvas>
 </Window>

@@ -150,6 +150,18 @@ namespace StudentView
             h = (h < Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height) ? h : Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height;
             Canvas.SetTop(scrollHandle, (h > 0) ? h : 0);
         }
+
+        private void clickableScrollBg_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point p = e.GetPosition(this);
+            double h = (p.Y - scrollHandle.Height / 2) < 0 ? 0 : (p.Y - scrollHandle.Height / 2);
+            double posn = h + scrollHandle.Height / 2 - scrollBg.Height;
+            h = (h < Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height) ? h : Canvas.GetTop(scrollBg) + scrollBg.Height - scrollHandle.Height;
+            Canvas.SetTop(scrollHandle, (h > 0) ? h : 0);
+
+            //move background
+            Canvas.SetTop(bg, scrRatio * (Canvas.GetTop(scrollBg) - Canvas.GetTop(scrollHandle)));
+        }
         #endregion
 
         /*
@@ -163,6 +175,7 @@ namespace StudentView
             bg.Height = availableWidth * ratio;
             double availableHeight = this.ActualHeight - SystemParameters.WindowNonClientFrameThickness.Top - SystemParameters.WindowNonClientFrameThickness.Bottom;
             scrollBg.Height = availableHeight;
+            clickableScrollBg.Height = availableHeight;
             scrollHandle.Height = (availableHeight / bg.Height) * scrollBg.Height;
             scrRatio = (bg.Height - availableHeight) / (scrollBg.Height - scrollHandle.Height);
         }
